@@ -1,14 +1,14 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from app.models import User  # ✅ Add this
 
 db = SQLAlchemy()
 login_manager = LoginManager()
 login_manager.login_view = 'login'
 
-@login_manager.user_loader  # ✅ This part is critical
+@login_manager.user_loader
 def load_user(user_id):
+    from app.models import User  # 👈 moved here to avoid circular import
     return User.query.get(int(user_id))
 
 def create_app():
