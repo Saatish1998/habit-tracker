@@ -6,6 +6,13 @@ from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 
+main = Blueprint('main', __name__)
+
+@main.route('/')
+def index():
+    return "Hello from Habit Tracker!"
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
