@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, url_for, flash, jsonify
-from app import app, db
+from app import db
 from flask import Blueprint, current_app
 from app.models import User, Habit, HabitLog, SmartwatchData
 from flask_login import login_user, logout_user, login_required, current_user
