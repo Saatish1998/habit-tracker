@@ -20,12 +20,12 @@ def register():
         existing_user = User.query.filter_by(username=username).first()
         if existing_user:
             flash('Username already exists. Try another.', 'danger')
-            return redirect(url_for('register'))
+            return redirect(url_for('main.register'))
         new_user = User(username=username, password=password)
         db.session.add(new_user)
         db.session.commit()
         flash('Registration successful!', 'success')
-        return redirect(url_for('login'))
+        return redirect(url_for('main.login'))
     return render_template('register.html')
 
 @main.route('/login', methods=['GET', 'POST'])
@@ -37,7 +37,7 @@ def login():
         if user and check_password_hash(user.password, password):
             login_user(user)
             flash('Logged in successfully!', 'success')
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('main.dashboard'))
         else:
             flash('Invalid credentials. Try again.', 'danger')
     return render_template('login.html')
@@ -47,7 +47,7 @@ def login():
 def logout():
     logout_user()
     flash('Logged out successfully!', 'info')
-    return redirect(url_for('login'))
+    return redirect(url_for('main.login'))
 
 @main.route('/dashboard', methods=['GET', 'POST'])
 @login_required
@@ -68,7 +68,7 @@ def dashboard():
         db.session.add(new_habit)
         db.session.commit()
         flash('✅ Habit added successfully!', 'success')
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('main.dashboard'))
 
     habits = Habit.query.filter_by(user_id=current_user.id).all()
 
@@ -154,7 +154,7 @@ def log_habit(habit_id):
 
         flash('✅ Habit logged successfully!', 'success')
 
-    return redirect(url_for('dashboard'))
+    return redirect(url_for('main.dashboard'))
 
 @main.route('/edit/<int:habit_id>', methods=['GET', 'POST'])
 @login_required
@@ -167,7 +167,7 @@ def edit_habit(habit_id):
         habit.non_productive = True if request.form.get('non_productive') else False
         db.session.commit()
         flash('Habit updated successfully.', 'success')
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('main.dashboard'))
     return render_template('edit_habit.html', habit=habit)
 
 @main.route('/delete/<int:habit_id>', methods=['POST'])
@@ -177,7 +177,7 @@ def delete_habit(habit_id):
     db.session.delete(habit)
     db.session.commit()
     flash('Habit deleted successfully.', 'info')
-    return redirect(url_for('dashboard'))
+    return redirect(url_for('main.dashboard'))
 
 @main.route('/watch-data', methods=['POST'])
 def receive_watch_data():
