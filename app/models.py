@@ -34,3 +34,12 @@ class DailyEvaluation(db.Model):
     date = db.Column(db.Date, nullable=False, default=datetime.utcnow)
     is_productive = db.Column(db.Boolean, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+class SmartwatchData(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    steps = db.Column(db.Integer)
+    sleep = db.Column(db.Float)
+    heart_rate = db.Column(db.Integer)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
