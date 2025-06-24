@@ -13,11 +13,11 @@ def index():
     return "Hello from Habit Tracker!"
 
 
-@app.route('/')
+@main.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/register', methods=['GET', 'POST'])
+@main.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form['username']
@@ -33,7 +33,7 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html')
 
-@app.route('/login', methods=['GET', 'POST'])
+@main.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
@@ -47,14 +47,14 @@ def login():
             flash('Invalid credentials. Try again.', 'danger')
     return render_template('login.html')
 
-@app.route('/logout')
+@main.route('/logout')
 @login_required
 def logout():
     logout_user()
     flash('Logged out successfully!', 'info')
     return redirect(url_for('login'))
 
-@app.route('/dashboard', methods=['GET', 'POST'])
+@main.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
     if request.method == 'POST':
@@ -136,7 +136,7 @@ def dashboard():
         watch_data=watch_data
     )
 
-@app.route('/log/<int:habit_id>', methods=['POST'])
+@main.route('/log/<int:habit_id>', methods=['POST'])
 @login_required
 def log_habit(habit_id):
     habit = Habit.query.get_or_404(habit_id)
@@ -161,7 +161,7 @@ def log_habit(habit_id):
 
     return redirect(url_for('dashboard'))
 
-@app.route('/edit/<int:habit_id>', methods=['GET', 'POST'])
+@main.route('/edit/<int:habit_id>', methods=['GET', 'POST'])
 @login_required
 def edit_habit(habit_id):
     habit = Habit.query.get_or_404(habit_id)
@@ -175,7 +175,7 @@ def edit_habit(habit_id):
         return redirect(url_for('dashboard'))
     return render_template('edit_habit.html', habit=habit)
 
-@app.route('/delete/<int:habit_id>', methods=['POST'])
+@main.route('/delete/<int:habit_id>', methods=['POST'])
 @login_required
 def delete_habit(habit_id):
     habit = Habit.query.get_or_404(habit_id)
@@ -184,7 +184,7 @@ def delete_habit(habit_id):
     flash('Habit deleted successfully.', 'info')
     return redirect(url_for('dashboard'))
 
-@app.route('/watch-data', methods=['POST'])
+@main.route('/watch-data', methods=['POST'])
 def receive_watch_data():
     try:
         data = request.get_json()
