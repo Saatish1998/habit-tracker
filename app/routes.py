@@ -191,7 +191,12 @@ def receive_watch_data():
 
         print(f"Parsed values → steps: {steps}, sleep: {sleep}, heart_rate: {heart_rate}")
 
-        user_id = 2  # hardcoded for test/demo purposes
+        # Get user by username instead of hardcoded ID
+        user = User.query.filter_by(username='demo_user').first()
+        if not user:
+            return jsonify({"status": "error", "message": "User 'demo_user' not found"}), 404
+
+        user_id = user.id
 
         # Save smartwatch data
         sw_data = SmartwatchData(user_id=user_id, steps=steps, sleep=sleep, heart_rate=heart_rate)
