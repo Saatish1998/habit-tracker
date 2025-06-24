@@ -10,11 +10,6 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
-    return "Hello from Habit Tracker!"
-
-
-@main.route('/')
-def index():
     return render_template('index.html')
 
 @main.route('/register', methods=['GET', 'POST'])
